@@ -130,6 +130,26 @@ because the laptop is RAM-starved at 7 GB of weights. That is the private-mesh a
 story in one measurement. The remaining gap to same-host (12 to 13 tok/s) is the price of the
 WAN; batching across sequences is what amortises it, and that is the next measurement.
 
+### 2b. First real WAN measurement (M1), 2026-09-14
+
+Tracker and layer peer `gcp-a` (layers 0:8) on `mesh-dev-1` in us-east1; layer peer `eu-b`
+(layers 8:16) on `mesh-dev-eu` in europe-west1; real OLMoE-1B-7B on both; 107 ms round trip
+between them over the VPC; chat with the same templated prompt, 48 tokens, three runs each.
+
+| Chatter | Decode | Prefill (warm) | Per-call at the remote stage | Per-call at the near stage |
+|---|---|---|---|---|
+| loopback reference (2a) | 12 to 13 tok/s | 4.0 s | 30 to 40 ms | 30 to 40 ms |
+| US VM (peer-b remote) | 4.1 to 4.7 tok/s | 8.9 to 9.5 s | 170 to 187 ms | 33 ms |
+| EU VM (peer-a remote) | 4.5 to 4.7 tok/s | 9.1 to 9.4 s | 139 to 150 ms | 60 ms |
+
+Reading: one WAN hop per token costs about two thirds of the throughput, exactly the round
+trip plus compute, and prefill roughly doubles. That is the number to design around: place
+the whole chain inside one region or one LAN whenever possible, and treat cross-region
+routes as batch-only. The tracker refused to publish a peer whose advertised address it
+could not reach, which is the right behaviour; the VMs had to advertise VPC-internal
+addresses because the project firewall admits only the founder's home IP on the peer ports.
+A home-NAT relay run from the Mac is still pending on the Mac's copy of the model.
+
 ## 3. Fit with Ayni
 
 The production marketplace already has what Lumabri lacks and lacks what Lumabri has.
