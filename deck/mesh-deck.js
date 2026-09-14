@@ -156,6 +156,7 @@ async function icon(name, color, px = 256) {
       ["Two-peer layer chain, real OLMoE-1B-7B", "GCP, 8 CPU cores, no GPU", "decode 12 to 13 tok/s, prefill 4 to 5.5 s, 3.8 MB on the wire for 48 tokens, generated ids identical to local Colibrì"],
       ["WAN chain, real OLMoE, 87 ms round trip", "peers on GCP, chatter on a 16 GB Mac; then Mac as relay-only peer behind home NAT", "3.5 to 4.6 tok/s, about one round trip per hop per token; faster than the Mac running the model alone (1.6 to 2.6 tok/s)"],
       ["Model conversion", "GCP", "OLMoE 13.8 GB checkpoint to a 7 GB int8 container in 3.5 minutes, shard by shard"],
+      ["Two-region chain, real OLMoE, us-east1 to europe-west1, 107 ms RTT", "GCP, two VMs", "decode 4.1 to 4.7 tok/s (one WAN hop per token), prefill 9 s; symmetric from either side; tracker refuses unreachable peers"],
       ["Lumabri's own release gate", "author's runs", "network changed 0 of 24 tokens; LAN 6.0 tok/s vs internet 1.1 tok/s vs slow-disk local 0.04 tok/s"],
     ];
     s.addTable(rows, { x: 0.5, y: 1.15, w: 9, colW: [2.6, 2.0, 4.4], fontFace: BF, fontSize: 10, color: C.ink, border: { type: "solid", color: C.line, pt: 0.75 }, rowH: [0.35, 0.62, 0.62, 0.62, 0.5, 0.62], valign: "middle", fill: { color: C.white } });
