@@ -1,0 +1,8 @@
+#!/bin/sh
+# Apple clang wrapper: accept GNU-style -fopenmp (Lumabri's P2P rules hardcode it).
+args=""; omp=0
+for a in "$@"; do
+  if [ "$a" = "-fopenmp" ]; then args="$args -Xclang -fopenmp"; omp=1; else args="$args \"$a\""; fi
+done
+if [ $omp = 1 ]; then args="$args -I/opt/homebrew/opt/libomp/include -L/opt/homebrew/opt/libomp/lib -lomp"; fi
+eval exec /usr/bin/clang $args

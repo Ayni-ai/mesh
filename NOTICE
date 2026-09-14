@@ -1,0 +1,4 @@
+This workspace evaluates and builds on:
+  Colibri  https://github.com/JustVugg/colibri   Apache License 2.0
+  Lumabri  https://github.com/JustVugg/lumabri   Apache License 2.0
+Their names are the upstream projects' names; nothing here claims them.
