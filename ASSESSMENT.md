@@ -1,8 +1,10 @@
-# Ayni Mesh (2.0) on Colibrì and Lumabri: fit assessment and plan
+# Ayni mesh peers on Colibrì and Lumabri: fit assessment and plan
 
 Date: 2026-09-14. Status: first-pass evaluation from source, docs and a loopback run on an
-M1 Pro with 16 GB. Nothing here touches Ayni 1.0 (`ayni-ai.com`, repo `shared-compute`),
-which keeps operating and improving on its own track.
+M1 Pro with 16 GB. Mesh is not a second product. It is the supply for Ayni's judgment classes (SMALL and up), sold
+through the same quote, accept, run and collect API. This repository is an incubator: it holds the
+evaluation and experiments until the adapter lands in the main repository as a provider class.
+The production marketplace (`ayni-ai.com`, repo `shared-compute`) keeps operating throughout.
 
 ## 1. What the two projects are
 
@@ -81,9 +83,9 @@ about the model, not the swarm.
 
 ## 3. Fit with Ayni
 
-Ayni 1.0 already has what Lumabri lacks and lacks what Lumabri has.
+The production marketplace already has what Lumabri lacks and lacks what Lumabri has.
 
-| Layer | Ayni 1.0 | Colibrì + Lumabri |
+| Layer | Ayni today | Colibrì + Lumabri |
 |---|---|---|
 | Models | one 0.5B on phones and laptops | 7B to 2.8T, frontier MoE |
 | Unit of work | whole request on one device | layer segments or experts across peers |
@@ -102,7 +104,7 @@ Ayni's contribution on top is exactly the missing layer: who is allowed to be a 
 (attestation tiers), what a job costs and who gets paid (quotes, metered earnings per
 segment or expert call), what runs where (the marketplace scheduler choosing peers by
 benchmark, RTT and price), and governance (Council on shape). Phones stay in 1.0 for the
-mechanical workloads; 2.0 is the laptop-and-desktop swarm for the reasoning workloads.
+mechanical workloads; mesh peers are the laptop-and-desktop supply for the reasoning workloads.
 
 The hard problems, honestly:
 
@@ -131,9 +133,23 @@ the track is **Ayni Mesh**: repository `Ayni-ai/mesh`, GCP project `ayni-mesh`. 
 Lumabri stay pinned upstream dependencies with attribution in `NOTICE`; the engine is not
 forked.
 
-## 5. Plan for the separate track
+## 4a. One product, staged merge (decided 2026-09-14)
 
-Nothing below changes Ayni 1.0.
+One product, one brand, one buyer surface. Two engineering tracks until the adapter (M2) proves
+a mesh route can register with the coordinator as a provider class; then this incubator folds
+into the main repository as a backend in the provider core and a route type in the scheduler,
+with upstreams pinned. Infrastructure stays separate until a paying private mesh exists.
+
+The privacy vocabulary grows one entry before the merge. Today `community` and
+`device_attested` both mean "the prompt is sealed to one device". A mesh route is different:
+several peers, each computing a layer range or an expert set and each seeing the activations
+for it, with encrypted transport, signed weights and replica verification. That is documented
+and priced as its own route class rather than passed off as the same guarantee; the per-peer
+trust tier (community or attested) then applies to every peer in the route.
+
+## 5. Plan
+
+Nothing below changes the production marketplace.
 
 1. **Workspace.** `~/Ayni2/` holds pinned checkouts of `colibri` and `lumabri` and this
    repository (`mesh`). A new GCP project (`ayni-mesh`, separate billing line) hosts a tracker VM
@@ -153,7 +169,7 @@ Nothing below changes Ayni 1.0.
    applies as is.
 5. **Decide.** Publish the numbers next to 1.0's and next to hosted prices per million
    tokens. If a three-donor swarm on a 300B-class model beats hosted open 70B on price per
-   correct answer for batch judgment work, 2.0 is the judgment class of the marketplace.
+   correct answer for batch judgment work, mesh peers are the judgment class of the marketplace.
    If not, the measurements are still the most useful thing we could have learned.
 
 ## 5a. State on 2026-09-14
