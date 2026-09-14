@@ -139,6 +139,16 @@ Nothing below changes Ayni 1.0.
    correct answer for batch judgment work, 2.0 is the judgment class of the marketplace.
    If not, the measurements are still the most useful thing we could have learned.
 
+## 5a. State on 2026-09-14
+
+- GitHub: `Ayni-ai/mesh` (public, Apache 2.0) holds this assessment and the experiments.
+- GCP: project `ayni-mesh` under `zalesgen.co`, billing linked, Compute enabled. One dev VM
+  `mesh-dev-1` (e2-standard-8, 32 GB, 100 GB disk, us-east1-b) builds both upstreams at the
+  pinned commits and runs the Linux-only expert-peer test. Delete it when idle; larger NVMe
+  machines are created per experiment and deleted after.
+- Models: OLMoE-1B-7B-0125-Instruct being converted to Colibrì's int8 container on the Mac
+  (`~/Ayni2/models/olmoe`) and on the VM.
+
 ## 6. Files in this workspace
 
 - `experiments/chain.sh`: the two-peer loopback run used for the numbers above.
