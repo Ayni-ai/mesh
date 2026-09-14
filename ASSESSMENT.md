@@ -1,4 +1,4 @@
-# Ayni 2.0 on Colibrì and Lumabri: fit assessment and plan
+# Ayni Mesh (2.0) on Colibrì and Lumabri: fit assessment and plan
 
 Date: 2026-09-14. Status: first-pass evaluation from source, docs and a loopback run on an
 M1 Pro with 16 GB. Nothing here touches Ayni 1.0 (`ayni-ai.com`, repo `shared-compute`),
@@ -110,17 +110,16 @@ Both are Apache 2.0, so using, modifying and redistributing the code with the li
 notices intact is allowed. Apache 2.0 grants no trademark rights (section 6). "Colibrì" is
 the upstream project's name and brand; a repository named `ayni-ai/colibri` reads as a
 fork of their engine, which is fine for a fork and confusing for a product. Recommendation:
-keep the code name for the track internally, name the public repository for what it is
-(`ayni-ai/ayni-swarm` or `ayni-ai/ayni-2`), keep Colibrì and Lumabri as pinned upstream
-dependencies with attribution in a NOTICE file, and pick a product name later. The GitHub
-organisation `Ayni-ai` does not exist yet; creating it is an account action for the owner.
+the track is **Ayni Mesh**: repository `Ayni-ai/mesh`, GCP project `ayni-mesh`. Colibrì and
+Lumabri stay pinned upstream dependencies with attribution in `NOTICE`; the engine is not
+forked.
 
 ## 5. Plan for the separate track
 
 Nothing below changes Ayni 1.0.
 
 1. **Workspace.** `~/Ayni2/` holds pinned checkouts of `colibri` and `lumabri` and this
-   repository. A new GCP project (`ayni2-swarm`, separate billing line) hosts a tracker VM
+   repository (`mesh`). A new GCP project (`ayni-mesh`, separate billing line) hosts a tracker VM
    and one or two donor VMs with local NVMe for real models; nothing shares with
    `ayni1-507216`.
 2. **Week 1, prove the engine on real weights.** Convert OLMoE-1B-7B (13.8 GB download,
