@@ -81,6 +81,29 @@ which at internet RTT becomes the dominant term. And the model's triage answer c
 the prompt wording ("HIGH" for the short form, "LOW" with an explanation requested), which is
 about the model, not the swarm.
 
+### 2b. First WAN measurement (M1, partial: synthetic model, 2026-09-14)
+
+Tracker and one layer-segment peer on the GCP VM (public IP, firewall to this Mac only), the
+other peer on this Mac behind a home NAT as a relay-only donor, the tiny synthetic OLMoE on both
+sides so the numbers are network cost, not compute. Round trip Mac to GCP: 87 ms.
+
+| Placement | Decode | Per segment call |
+|---|---|---|
+| Chatter on the Mac, GCP peer direct, Mac peer via relay | 0.3 to 0.9 tok/s | GCP 200 to 450 ms, Mac relay 1.0 to 3.6 s |
+| Chatter on the VM, GCP peer local, Mac peer via relay | 0.5 to 1.6 tok/s | GCP 14 ms, Mac relay 0.7 to 2.2 s |
+| Chatter on the Mac, both peers on GCP, direct | 0.9 to 1.2 tok/s | 400 to 700 ms each |
+
+Three conclusions. First, a relay-only home peer costs 0.7 to 2.2 s per call on this link: the
+tracker relay plus a home uplink is not a data-plane for sequential layers. Second, even a
+direct hop costs 400 to 700 ms per call at 87 ms RTT, which is several round trips per call,
+not one; that is protocol overhead worth raising upstream (pipelining or batching the segment
+calls). Third, the loopback numbers (9 ms per call) show the engine is not the cost. So the
+design rule for the adapter: a route lives inside one low-RTT domain (one region, one LAN, one
+private mesh), the chatter is a peer inside that domain, and the buyer submits prompts to the
+route through the coordinator. Home peers behind NAT are useful as expert donors for batch
+work, not as links in a sequential layer chain. Real-weights WAN numbers follow when the Mac
+conversion completes.
+
 ## 3. Fit with Ayni
 
 The production marketplace already has what Lumabri lacks and lacks what Lumabri has.
