@@ -159,8 +159,8 @@ async function icon(name, color, px = 256) {
       ["Two-region chain, real OLMoE, us-east1 to europe-west1, 107 ms RTT", "GCP, two VMs", "decode 4.1 to 4.7 tok/s (one WAN hop per token), prefill 9 s; symmetric from either side; tracker refuses unreachable peers"],
       ["Lumabri's own release gate", "author's runs", "network changed 0 of 24 tokens; LAN 6.0 tok/s vs internet 1.1 tok/s vs slow-disk local 0.04 tok/s"],
     ];
-    s.addTable(rows, { x: 0.5, y: 1.15, w: 9, colW: [2.6, 2.0, 4.4], fontFace: BF, fontSize: 10, color: C.ink, border: { type: "solid", color: C.line, pt: 0.75 }, rowH: [0.35, 0.62, 0.62, 0.62, 0.5, 0.62], valign: "middle", fill: { color: C.white } });
-    s.addText("The engine and swarm are correct, and a laptop renting two peers across the internet beat itself. The remaining gap to same-host speed (12 tok/s) is the price of the WAN; batching amortises it, and that is the next measurement.", { x: 0.5, y: 4.55, w: 9, h: 0.5, fontFace: BF, fontSize: 11.5, italic: true, color: C.muted, isTextBox: true, margin: 0, valign: "top" });
+    s.addTable(rows, { x: 0.5, y: 1.15, w: 9, colW: [2.6, 2.0, 4.4], fontFace: BF, fontSize: 8.5, color: C.ink, border: { type: "solid", color: C.line, pt: 0.75 }, rowH: [0.3, 0.5, 0.5, 0.5, 0.36, 0.5, 0.5], valign: "middle", fill: { color: C.white } });
+    s.addText("The engine and swarm are correct, and a laptop renting two peers across the internet beat itself. The remaining gap to same-host speed (12 tok/s) is the price of the WAN; batching amortises it, and that is the next measurement.", { x: 0.5, y: 4.6, w: 9, h: 0.55, fontFace: BF, fontSize: 9.5, italic: true, color: C.muted, isTextBox: true, margin: 0, valign: "top" });
     foot(s);
     s.addNotes("Every number here came from a run we executed or from Lumabri's published gate. The next number we need is a real WAN run: tracker on GCP, one peer on GCP, one peer behind a home NAT.");
   }
