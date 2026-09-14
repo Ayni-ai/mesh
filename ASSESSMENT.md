@@ -104,6 +104,32 @@ route through the coordinator. Home peers behind NAT are useful as expert donors
 work, not as links in a sequential layer chain. Real-weights WAN numbers follow when the Mac
 conversion completes.
 
+### 2c. WAN with real weights (M1 complete for the layer-chain path, 2026-09-14)
+
+Same tracker and firewall as 2b; real OLMoE-1B-7B on both machines; 48-token answers to the
+templated triage prompt, temperature 0; the Mac is behind a home NAT and joins as a relay-only
+peer where noted. Round trip Mac to GCP: 87 ms.
+
+| Placement | Decode | Per segment call | Prefill (73 tokens) |
+|---|---|---|---|
+| Mac alone, Colibrì Metal build, OpenAI server | 2.5 tok/s incl. prefill | n/a | included |
+| Mac alone, two-peer chain on loopback | 1.6 to 2.6 tok/s | 170 to 300 ms | 14 to 19 s |
+| Both peers on GCP, chatter on the Mac (direct) | 3.5 to 3.6 tok/s | 130 to 140 ms | 9 s warm, 38 s cold |
+| Chatter and one peer on GCP, Mac as relay-only peer | 4.5 to 4.6 tok/s | GCP 48 ms, Mac via relay 156 to 162 ms | 12 to 14 s |
+| For reference: both peers and chatter on GCP (2a) | 12 to 13 tok/s | 30 to 40 ms | 4 to 5.5 s |
+
+Every placement produced the same answer text. Three corrections to 2b now that the model is
+real. The 400 to 700 ms per call seen with the synthetic model was not protocol overhead; with
+real weights a direct WAN hop costs about one round trip plus compute, and the relay hop through
+the tracker costs about 70 ms more than that. A home peer behind NAT is therefore usable as a
+link in a layer chain, at roughly one round trip per token per hop; the earlier rule stands as
+a preference (keep a route in one low-RTT domain) rather than a prohibition. And the most
+useful number for the go-to-market: this 16 GB laptop got faster answers by renting two GCP
+peers across the internet (3.5 tok/s) than by running the model itself (1.6 to 2.6 tok/s),
+because the laptop is RAM-starved at 7 GB of weights. That is the private-mesh and overflow
+story in one measurement. The remaining gap to same-host (12 to 13 tok/s) is the price of the
+WAN; batching across sequences is what amortises it, and that is the next measurement.
+
 ## 3. Fit with Ayni
 
 The production marketplace already has what Lumabri lacks and lacks what Lumabri has.
