@@ -62,6 +62,23 @@ not on the runtime. The segment node's governor refused work until the RAM reser
 lowered (`LUMABRI_SEGMENT_RAM_RESERVE_MB`), which on a 16 GB laptop with 3.5 GB free is
 the right default behaviour.
 
+### 2a. Real weights on GCP (mesh-dev-1, e2-standard-8, 8 vCPU, no GPU)
+
+OLMoE-1B-7B-Instruct converted to Colibrì's int8 container (7.0 GB) in 3.5 minutes on the VM.
+
+| Path | Result |
+|---|---|
+| Expert-peer swarm, tiny fixture, 4 peers on loopback (Linux only) | 1,984 remote expert calls, 8.4 ms per layer round, tokens identical to the local engine, incompatible engine build refused, spot-check verification agreed |
+| Local Colibrì, real OLMoE, OpenAI server, 48 tokens, temperature 0 | 5.3 to 7.9 s total including prefill of 73 tokens; "The log line is classified as LOW…" |
+| Two-peer layer chain, real OLMoE, same templated prompt | prefill 4.0 to 5.5 s, decode 48 tokens at 11.9 to 13.0 tok/s, 3.8 MB on the wire, 30 to 40 ms per stage call |
+| Same raw token ids into both paths | generated ids identical up to end-of-sequence (" HIGH") |
+
+Two honest notes. The chain's decode rate on loopback matched the local engine's; the cost of
+the network at 0 ms RTT is real prefill latency and 3 to 4 MB of activations per short answer,
+which at internet RTT becomes the dominant term. And the model's triage answer changed with
+the prompt wording ("HIGH" for the short form, "LOW" with an explanation requested), which is
+about the model, not the swarm.
+
 ## 3. Fit with Ayni
 
 Ayni 1.0 already has what Lumabri lacks and lacks what Lumabri has.
